@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard SITTA UT</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-dashboard">
+  <div class="app-container">
+    <!-- Sidebar -->
+    <nav id="desktop-sidebar" class="sidebar">
+      <ul>
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="stok.html">Bahan Ajar</a></li>
+        <li><a href="tracking.html">Tracking</a></li>
+        <li class="dropdown">
+          <a href="#">Laporan ▶️</a>
+          <ul class="dropdown-content">
+            <li><a href="#" onclick="alert('Laporan Stok sedang dalam pengembangan')">Stok</a></li>
+            <li><a href="#" onclick="alert('Laporan Transaksi sedang dalam pengembangan')">Transaksi</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#">Histori ▶️</a>
+          <ul class="dropdown-content">
+            <li><a href="#" onclick="alert('Histori Pemesanan sedang dalam pengembangan')">Pemesanan</a></li>
+            <li><a href="#" onclick="alert('Histori Pengiriman sedang dalam pengembangan')">Pengiriman</a></li>
+          </ul>
+        </li>
+        <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <header class="navbar-global">
+        <div class="header-left">
+          <img src="asset/logo.png" alt="SITTA UT" class="logo" />
+          <h2>SITTA UT</h2>
+        </div>
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      </header>
+
+      <main class="dashboard-container">
+        <h2 id="greet"></h2>
+        <h3 class="dashboard-title">Menu Utama SITTA UT</h3>
+        <div class="dashboard-menu">
+          <div class="dashboard-card" onclick="go('stok.html')">
+            <div class="card-icon">📚</div>
+            <h4>Informasi Bahan Ajar</h4>
+            <p>Lihat daftar dan stok bahan ajar terkini.</p>
+          </div>
+          <div class="dashboard-card" onclick="go('tracking.html')">
+            <div class="card-icon">🚚</div>
+            <h4>Tracking Pengiriman</h4>
+            <p>Lacak status pengiriman bahan ajar Anda.</p>
+          </div>
+          <div class="dashboard-card" onclick="alert('Fitur Laporan sedang dalam pengembangan')">
+            <div class="card-icon">📊</div>
+            <h4>Laporan</h4>
+            <p>Monitoring dan rekap data bahan ajar.</p>
+          </div>
+          <div class="dashboard-card" onclick="alert('Fitur Histori Transaksi sedang dalam pengembangan')">
+            <div class="card-icon">🧾</div>
+            <h4>Histori Transaksi</h4>
+            <p>Lihat riwayat transaksi pemesanan bahan ajar.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div id="sidebar-overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      alert("Silakan login terlebih dahulu!");
+      window.location.href = "index.html";
+    }
+
+    function toggleSidebar() {
+      document.getElementById("desktop-sidebar").classList.toggle("active");
+      document.getElementById("sidebar-overlay").classList.toggle("active");
+    }
+
+    document.querySelectorAll(".sidebar .dropdown > a").forEach((item) => {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        this.parentElement.classList.toggle("show");
+      });
+    });
+
+    const jam = new Date().getHours();
+    let greet = "Selamat Pagi";
+    if (jam >= 12 && jam < 17) greet = "Selamat Siang";
+    else if (jam >= 17) greet = "Selamat Sore";
+    document.getElementById("greet").innerText = `${greet}, ${user.nama}`;
+
+    function go(page) {
+      window.location.href = page;
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Informasi Bahan Ajar - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="page-dashboard">
+    
+
+    <main class="dashboard-container">
+      <h3 class="dashboard-title">Informasi Bahan Ajar</h3>
+
+      <div class="stok-grid" id="stokList"></div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script>
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        alert("Silakan login terlebih dahulu!");
+        window.location.href = "index.html";
+      }
+
+
+      function logout() {
+        localStorage.removeItem("user");
+        window.location.href = "index.html";
+      }
+
+      const databahanAjar = document.getElementById("stokList");
+
+      if (window.dataBahanAjar && dataBahanAjar.length > 0) {
+        dataBahanAjar.forEach((item) => {
+          const div = document.createElement("div");
+          div.className = "stok-card";
+          div.innerHTML = `
+          <img src="${item.cover}" alt="${
+            item.namaBarang
+          }" class="stok-cover" onerror="this.src='img/no_cover.jpg'">
+          <div class="stok-info">
+            <h4>${item.namaBarang}</h4>
+            <p><strong>Kode:</strong> ${item.kodeBarang}</p>
+            <p><strong>Jenis:</strong> ${item.jenisBarang} (Edisi ${
+            item.edisi
+          })</p>
+            <p><strong>Stok:</strong> <span class="${
+              item.stok <= 0 ? "stok-empty" : "stok-available"
+            }">${item.stok}</span></p>
+            <p class="lokasi"><strong>Lokasi:</strong> ${item.kodeLokasi}</p>
+          </div>
+        `;
+          databahanAjar.appendChild(div);
+        });
+      } else {
+        databahanAjar.innerHTML = `<p>Tidak ada data bahan ajar tersedia.</p>`;
+      }
+    </script>
+  </body>
+</html>

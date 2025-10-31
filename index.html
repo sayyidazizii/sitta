@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="page-login">
+    <div class="login-box">
+      <h2 class="login-title">Login SITTA UT</h2>
+      <p class="login-subtitle">Sistem Informasi Tiras & Transaksi Bahan Ajar</p>
+
+      <input
+        type="email"
+        id="email"
+        class="login-input"
+        placeholder="Email"
+      />
+      <input
+        type="password"
+        id="password"
+        class="login-input"
+        placeholder="Password"
+      />
+
+      <button class="login-btn" onclick="login()">Login</button>
+
+      <div class="login-links">
+        <a onclick="openModal('forgotModal')">Lupa Password</a> |
+        <a onclick="openModal('registerModal')">Daftar</a>
+      </div>
+    </div>
+
+    <div id="forgotModal" class="modal">
+      <div class="modal-content">
+        <h3>Lupa Password</h3>
+        <p>
+          Silakan hubungi <b>admin@ut.ac.id</b> untuk melakukan reset password.
+        </p>
+        <button onclick="closeModal('forgotModal')">Tutup</button>
+      </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <h3>Form Pendaftaran</h3>
+        <input type="text" class="login-input" placeholder="Nama Lengkap" />
+        <input type="email" class="login-input" placeholder="Email" />
+        <input type="password" class="login-input" placeholder="Password" />
+        <button class="login-btn">Daftar</button>
+        <button onclick="closeModal('registerModal')">Batal</button>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script>
+      function login() {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        const user = dataPengguna.find(
+          (u) => u.email === email && u.password === password
+        );
+
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+          alert("Login berhasil! Selamat datang " + user.nama);
+          window.location.href = "dashboard.html";
+        } else {
+          alert("Email atau password yang Anda masukkan salah!");
+        }
+      }
+
+      function openModal(id) {
+        document.getElementById(id).style.display = "flex";
+      }
+      function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+      }
+    </script>
+  </body>
+</html>
